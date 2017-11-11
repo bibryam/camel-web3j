@@ -19,10 +19,12 @@ package org.apache.camel.component.web3j;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.apache.camel.component.web3j.Web3jConstants.*;
 
+@Ignore("Integration test that requires locally running synced node")
 public class Web3jConsumerTest extends Web3jTestSupport {
 
     @EndpointInject(uri = "mock:result")

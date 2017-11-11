@@ -20,10 +20,12 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.apache.camel.component.web3j.Web3jConstants.*;
 
+@Ignore("Integration test that requires locally running synced node")
 public class Web3jProducerTest extends Web3jTestSupport {
 
     @Produce(uri = "direct:start")

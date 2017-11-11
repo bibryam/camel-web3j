@@ -1,4 +1,4 @@
-# web3j Camel component
+# Web3j Camel component for Ethereum
 
 Start up an Ethereum client if you don't already have one running, such as Geth:
 
