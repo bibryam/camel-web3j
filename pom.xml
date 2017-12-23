@@ -40,8 +40,8 @@
     <description>Camel web3j which is based on web3j support</description>
 
     <properties>
-        <web3j.version>3.0.1</web3j.version>
-        <camel.version>2.20.0</camel.version>
+        <web3j.version>3.2.0</web3j.version>
+        <camel.version>2.20.1</camel.version>
         <camel.osgi.export.pkg>org.apache.camel.component.web3j.*</camel.osgi.export.pkg>
         <camel.osgi.activator>org.apache.camel.component.web3j.osgi.Activator</camel.osgi.activator>
         <camel.osgi.export.service>org.apache.camel.spi.ComponentResolver;component=web3j</camel.osgi.export.service>
