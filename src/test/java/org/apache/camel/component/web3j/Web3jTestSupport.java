@@ -16,13 +16,20 @@
  */
 package org.apache.camel.component.web3j;
 
+import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.impl.DefaultExchange;
+import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.test.AvailablePortFinder;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.web3j.protocol.Web3j;
+import rx.Subscription;
 
 public class Web3jTestSupport extends CamelTestSupport {
 
@@ -32,9 +39,38 @@ public class Web3jTestSupport extends CamelTestSupport {
         System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "DEBUG");
     }
 
-    protected String getUrl() {
-        return "web3j://http://127.0.0.1:8545?";
+
+    @EndpointInject(uri = "mock:result")
+    protected MockEndpoint mockResult;
+
+    @EndpointInject(uri = "mock:error")
+    protected MockEndpoint mockError;
+
+    @Mock
+    protected Web3j mockWeb3j;
+
+    @Mock
+    protected Subscription subscription;
+
+    @Override
+    public boolean isUseAdviceWith() {
+        return true;
     }
+
+    @Override
+    protected JndiRegistry createRegistry() throws Exception {
+        JndiRegistry registry = super.createRegistry();
+        registry.bind("mockWeb3j", mockWeb3j);
+        return registry;
+    }
+
+    protected String getUrl() {
+        return "web3j://http://127.0.0.1:8545?web3j=#mockWeb3j&";
+    }
+
+//    protected String getUrl() {
+//        return "web3j://http://127.0.0.1:8545?";
+//    }
 
     protected Exchange createExchangeWithBodyAndHeader(Object body, String key, Object value) {
         DefaultExchange exchange = new DefaultExchange(context);
@@ -54,6 +90,7 @@ public class Web3jTestSupport extends CamelTestSupport {
     @Override
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         super.setUp();
     }
 }

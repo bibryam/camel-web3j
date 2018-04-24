@@ -26,7 +26,7 @@ import org.junit.Test;
 import static org.apache.camel.component.web3j.Web3jConstants.*;
 
 @Ignore("Integration test that requires locally running synced node")
-public class Web3jProducerTest extends Web3jTestSupport {
+public class Web3jProducerIntegrationTest extends Web3jTestSupport {
 
     @Produce(uri = "direct:start")
     protected ProducerTemplate template;

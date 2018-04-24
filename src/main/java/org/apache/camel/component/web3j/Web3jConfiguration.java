@@ -3,6 +3,7 @@ package org.apache.camel.component.web3j;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
+import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 
@@ -42,6 +43,15 @@ public class Web3jConfiguration implements Cloneable {
     private String data;
     private BigInteger priority;
     private BigInteger ttl;
+    private Web3j web3j;
+
+    public Web3j getWeb3j() {
+        return web3j;
+    }
+
+    public void setWeb3j(Web3j web3j) {
+        this.web3j = web3j;
+    }
 
     public BigInteger getPriority() {
         return priority;
