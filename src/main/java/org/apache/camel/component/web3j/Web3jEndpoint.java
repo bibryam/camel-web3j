@@ -29,6 +29,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.Filter;
 import org.web3j.protocol.core.methods.request.ShhFilter;
 import org.web3j.protocol.core.methods.request.ShhPost;
 import org.web3j.protocol.http.HttpService;
@@ -94,20 +95,17 @@ public class Web3jEndpoint extends DefaultEndpoint {
 
     public static EthFilter buildEthFilter(DefaultBlockParameter fromBlock, DefaultBlockParameter toBlock, List<String> addresses, List<String> topics) {
         EthFilter filter = new EthFilter(fromBlock, toBlock, addresses);
-        if (topics != null) {
-            for (String topic : topics) {
-                if (topic != null && topic.length() > 0) {
-                    filter.addSingleTopic(topic);
-                } else {
-                    filter.addNullTopic();
-                }
-            }
-        }
+        addTopics(filter, topics);
         return filter;
     }
 
     public static ShhFilter buildShhFilter(String data, List<String> topics) {
         ShhFilter filter = new ShhFilter(data);
+        addTopics(filter, topics);
+        return filter;
+    }
+
+    private static void addTopics(Filter filter, List<String> topics) {
         if (topics != null) {
             for (String topic : topics) {
                 if (topic != null && topic.length() > 0) {
@@ -117,8 +115,6 @@ public class Web3jEndpoint extends DefaultEndpoint {
                 }
             }
         }
-        return filter;
     }
-
 
 }

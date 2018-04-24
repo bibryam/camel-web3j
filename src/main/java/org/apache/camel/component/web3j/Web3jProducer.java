@@ -46,7 +46,7 @@ public class Web3jProducer extends HeaderSelectorProducer {
     public Web3jProducer(Web3jEndpoint endpoint, final Web3jConfiguration configuration) {
         super(endpoint, Web3jConstants.OPERATION, () -> configuration.getOperationOrDefault(), false);
         web3j = endpoint.getWeb3j();
-        endpoint = endpoint;
+        this.endpoint = endpoint;
         this.configuration = configuration;
     }
 

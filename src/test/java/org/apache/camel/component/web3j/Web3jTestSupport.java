@@ -32,29 +32,19 @@ public class Web3jTestSupport extends CamelTestSupport {
         System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "DEBUG");
     }
 
-    protected static int port;
-
     protected String getUrl() {
         return "web3j://http://127.0.0.1:8545?";
     }
 
-    protected Exchange createExchangeWithInBody(String body) {
+    protected Exchange createExchangeWithBodyAndHeader(Object body, String key, Object value) {
         DefaultExchange exchange = new DefaultExchange(context);
-        if (body != null) {
-            exchange.getIn().setBody(body);
-        }
-        return exchange;
-    }
-
-    protected Exchange createExchangeWithHeader(String key, Object value) {
-        DefaultExchange exchange = new DefaultExchange(context);
+        exchange.getIn().setBody(body);
         exchange.getIn().setHeader(key, value);
         return exchange;
     }
 
     @BeforeClass
     public static void startServer() throws Exception {
-        port = AvailablePortFinder.getNextAvailable(26500);
     }
 
     @AfterClass

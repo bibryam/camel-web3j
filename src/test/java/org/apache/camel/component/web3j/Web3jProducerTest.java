@@ -33,7 +33,7 @@ public class Web3jProducerTest extends Web3jTestSupport {
 
     @Test
     public void clientVersionTest() throws Exception {
-        Exchange exchange = createExchangeWithHeader(OPERATION, WEB3_CLIENT_VERSION);
+        Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, WEB3_CLIENT_VERSION);
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);
         assertTrue(body.startsWith("Geth"));
@@ -41,7 +41,7 @@ public class Web3jProducerTest extends Web3jTestSupport {
 
     @Test
     public void netVersionTest() throws Exception {
-        Exchange exchange = createExchangeWithHeader(OPERATION, NET_VERSION);
+        Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, NET_VERSION);
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);
         assert(body != null);
@@ -49,7 +49,7 @@ public class Web3jProducerTest extends Web3jTestSupport {
 
     @Test
     public void netWeb3Sha3Test() throws Exception {
-        Exchange exchange = createExchangeWithHeader(OPERATION, WEB3_SHA3);
+        Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, WEB3_SHA3);
         exchange.getIn().setBody("0x68656c6c6f20776f726c64");
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);

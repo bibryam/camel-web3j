@@ -152,7 +152,6 @@ public class Web3jConsumer extends DefaultConsumer {
                         () -> processDone()
                 );
                 break;
-
         }
 
         LOG.info("Subscribed: " + this.configuration);
@@ -173,42 +172,42 @@ public class Web3jConsumer extends DefaultConsumer {
     }
 
     private void ethLogObservable(Log x) {
-        LOG.info("processLogObservable " + x);
+        LOG.debug("processLogObservable " + x);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setBody(x);
         processEvent(exchange);
     }
 
     private void ethBlockHashObservable(String x) {
-        LOG.info("processEthBlock " + x);
+        LOG.debug("processEthBlock " + x);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setBody(x);
         processEvent(exchange);
     }
 
     private void ethPendingTransactionHashObservable(String x) {
-        LOG.info("processEthBlock " + x);
+        LOG.debug("processEthBlock " + x);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setBody(x);
         processEvent(exchange);
     }
 
     private void blockObservable(EthBlock x) {
-        LOG.info("processEthBlock " + x);
+        LOG.debug("processEthBlock " + x);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setBody(x);
         processEvent(exchange);
     }
 
     private void processTransaction(Transaction x) {
-        LOG.info("processTransaction " + x);
+        LOG.debug("processTransaction " + x);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setBody(x);
         processEvent(exchange);
     }
 
     public void processEvent(Exchange exchange) {
-        LOG.info("processEvent " + exchange);
+        LOG.debug("processEvent " + exchange);
         try {
             getProcessor().process(exchange);
         } catch (Exception e) {
@@ -217,14 +216,14 @@ public class Web3jConsumer extends DefaultConsumer {
     }
 
     private void processDone() {
-        LOG.info("processDone ");
+        LOG.debug("processDone ");
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.getIn().setHeader("status", "done");
         processEvent(exchange);
     }
 
     private void processError(Throwable throwable) {
-        LOG.info("processError " + throwable);
+        LOG.debug("processError " + throwable);
         Exchange exchange = this.getEndpoint().createExchange();
         exchange.setException(throwable);
         processEvent(exchange);

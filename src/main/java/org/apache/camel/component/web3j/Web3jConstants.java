@@ -126,7 +126,6 @@ public interface Web3jConstants {
     String PRIORITY = "PRIORITY";
     String TTL = "TTL";
 
-
     String ERROR_CODE = "ERROR_CODE";
     String ERROR_DATA = "ERROR_DATA";
     String ERROR_MESSAGE = "ERROR_MESSAGE";
