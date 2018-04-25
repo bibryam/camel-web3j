@@ -24,11 +24,16 @@ import org.junit.Test;
 
 import static org.apache.camel.component.web3j.Web3jConstants.*;
 
-@Ignore("Integration test that requires locally running synced node")
+@Ignore("Integration test that requires a locally running synced ethereum node")
 public class Web3jConsumerIntegrationTest extends Web3jTestSupport {
 
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mockResult;
+
+    @Override
+    protected String getUrl() {
+        return "web3j://http://127.0.0.1:8545?";
+    }
 
     @Test(timeout = 600000L)
     public void consumerTest() throws InterruptedException {
@@ -46,10 +51,10 @@ public class Web3jConsumerIntegrationTest extends Web3jTestSupport {
 
                 from(getUrl() + OPERATION.toLowerCase() + "=" + ETH_LOG_OBSERVABLE)
                         .to("mock:result");
-//
+
                 from(getUrl() + OPERATION.toLowerCase() + "=" + PENDING_TRANSACTION_OBSERVABLE)
                         .to("mock:result");
-//
+
                 from(getUrl() + OPERATION.toLowerCase() + "=" + BLOCK_OBSERVABLE)
                         .to("mock:result");
 

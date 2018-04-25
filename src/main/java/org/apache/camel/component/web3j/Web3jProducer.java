@@ -855,6 +855,7 @@ public class Web3jProducer extends HeaderSelectorProducer {
 
     private void setRequestId(Message message, Request request) {
         final Long id = message.getHeader(Web3jConstants.ID, Long.class);
+        LOG.debug("setRequestId " + id);
         if (id != null) {
             request.setId(id);
         }

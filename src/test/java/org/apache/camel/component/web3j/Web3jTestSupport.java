@@ -39,7 +39,6 @@ public class Web3jTestSupport extends CamelTestSupport {
         System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "DEBUG");
     }
 
-
     @EndpointInject(uri = "mock:result")
     protected MockEndpoint mockResult;
 

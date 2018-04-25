@@ -25,11 +25,16 @@ import org.junit.Test;
 
 import static org.apache.camel.component.web3j.Web3jConstants.*;
 
-@Ignore("Integration test that requires locally running synced node")
+@Ignore("Integration test that requires a locally running synced ethereum node")
 public class Web3jProducerIntegrationTest extends Web3jTestSupport {
 
     @Produce(uri = "direct:start")
     protected ProducerTemplate template;
+
+    @Override
+    protected String getUrl() {
+        return "web3j://http://127.0.0.1:8545?";
+    }
 
     @Test
     public void clientVersionTest() throws Exception {

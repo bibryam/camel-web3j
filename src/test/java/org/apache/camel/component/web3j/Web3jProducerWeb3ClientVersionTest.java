@@ -20,19 +20,35 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.NetVersion;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.core.methods.response.Web3Sha3;
 
 import static org.apache.camel.component.web3j.Web3jConstants.*;
+import static org.mockito.ArgumentMatchers.any;
 
-@Ignore("Integration test that requires locally running synced node")
-public class Web3jSmokeTest extends Web3jTestSupport {
+public class Web3jProducerWeb3ClientVersionTest extends Web3jTestSupport {
 
     @Produce(uri = "direct:start")
     protected ProducerTemplate template;
 
+    @Override
+    public boolean isUseAdviceWith() {
+        return false;
+    }
+
     @Test
     public void clientVersionTest() throws Exception {
+        Request request = Mockito.mock(Request.class);
+        Web3ClientVersion response = Mockito.mock(Web3ClientVersion.class);
+
+        Mockito.when(mockWeb3j.web3ClientVersion()).thenReturn(request);
+        Mockito.when(request.send()).thenReturn(response);
+        Mockito.when(response.getWeb3ClientVersion()).thenReturn("Geth-123");
+
         Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, WEB3_CLIENT_VERSION);
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);
@@ -41,19 +57,33 @@ public class Web3jSmokeTest extends Web3jTestSupport {
 
     @Test
     public void netVersionTest() throws Exception {
+        Request request = Mockito.mock(Request.class);
+        NetVersion response = Mockito.mock(NetVersion.class);
+
+        Mockito.when(mockWeb3j.netVersion()).thenReturn(request);
+        Mockito.when(request.send()).thenReturn(response);
+        Mockito.when(response.getNetVersion()).thenReturn("Net-123");
+
         Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, NET_VERSION);
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);
-        assert(body != null);
+        assertTrue(body.startsWith("Net"));
     }
 
     @Test
     public void netWeb3Sha3Test() throws Exception {
+        Request request = Mockito.mock(Request.class);
+        Web3Sha3 response = Mockito.mock(Web3Sha3.class);
+
+        Mockito.when(mockWeb3j.web3Sha3(any())).thenReturn(request);
+        Mockito.when(request.send()).thenReturn(response);
+        Mockito.when(response.getResult()).thenReturn("0x471");
+
         Exchange exchange = createExchangeWithBodyAndHeader(null, OPERATION, WEB3_SHA3);
-        exchange.getIn().setBody("0x68656c6c6f20776f726c64");
+        exchange.getIn().setBody("0x68");
         template.send(exchange);
         String body = exchange.getIn().getBody(String.class);
-        assertTrue(body.equals("0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad"));
+        assertTrue(body.equals("0x471"));
     }
 
     @Override
@@ -61,13 +91,8 @@ public class Web3jSmokeTest extends Web3jTestSupport {
         return new RouteBuilder() {
             public void configure() {
                 from("direct:start")
-                        .to(getUrl() + OPERATION.toLowerCase() + "=" + TRANSACTION);
+                        .to(getUrl() + OPERATION.toLowerCase() + "=" + WEB3_CLIENT_VERSION);
             }
         };
-    }
-
-    @Override
-    protected String getUrl() {
-        return "web3j://https://mainnet.infura.io/INFURA_ID?";
     }
 }
